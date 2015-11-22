@@ -1,4 +1,6 @@
 import os
+import logging
+
 from flask import Flask, abort, request, g, session, redirect, url_for, send_from_directory
 from flask_sslify import SSLify
 from flask.ext.github import GitHub
@@ -23,6 +25,14 @@ sslify = SSLify(app)
 github = GitHub(app)
 
 
+@app.before_first_request
+def setup_logging():
+    if not app.debug:
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(logging.INFO)
+        app.logger.addHandler(stream_handler)
+
+
 @github.access_token_getter
 def token_getter():
     return session.get('github_access_token')
@@ -36,15 +46,13 @@ def authorized(access_token):
         return abort(403)
 
     gh = login(token=access_token)
-    print "A"
+    app.logger.info("A")
     for repo in gh.iter_repos():
-        print repo.full_name, app.config['REPO_NAME']
+        app.logger.info(",".join(repo.full_name, app.config['REPO_NAME']))
         if repo.full_name == app.config['REPO_NAME']:
             session['validated'] = True
             return redirect(next_url)
-
-    print "B"
-
+    app.logger.info("B")
     return abort(403)
 
 
