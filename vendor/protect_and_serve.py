@@ -50,11 +50,19 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/<path:path>')
+@app.route('/')
 def index():
+    return redirect('/index.html')
+
+
+@app.route('/<path:filename>')
+def path(filename):
     if session.get('validated', False):
         return github.authorize(scope="user,repo")
-    return send_from_directory(app.config.STATIC_DIR)
+    return send_from_directory(
+        app.config.STATIC_DIR,
+        filename,
+    )
 
 
 if __name__ == '__main__':
