@@ -202,7 +202,7 @@ set-env LD_LIBRARY_PATH '/app/.heroku/vendor/lib:/app/.heroku/python/lib:$LD_LIB
 set-default-env LANG en_US.UTF-8
 set-default-env PYTHONHASHSEED random
 set-default-env PYTHONPATH /app/
-set-default-env SPHINX_STATIC /app/html
+set-default-env STATIC_DIR /app/html
 
 set-proc web "gunicorn protect_and_serve:app --log-file=-"
 
