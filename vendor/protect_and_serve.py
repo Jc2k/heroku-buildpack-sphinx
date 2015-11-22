@@ -37,7 +37,7 @@ def authorized(access_token):
 
     gh = login(access_token)
     for repo in gh.iter_repos():
-        if repo.full_name == app.config.REPO_NAME:
+        if repo.full_name == app.config['REPO_NAME']:
             session['validated'] = True
             return redirect(next_url)
 
@@ -57,10 +57,10 @@ def index():
 
 @app.route('/<path:filename>')
 def path(filename):
-    if session.get('validated', False):
+    if not session.get('validated', False):
         return github.authorize(scope="user,repo")
     return send_from_directory(
-        app.config.STATIC_DIR,
+        app.config['STATIC_DIR'],
         filename,
     )
 
