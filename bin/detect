@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+BUILD_DIR=$1
+
+if [ ! -f $BUILD_DIR/conf.py ]; then
+  exit 1
+fi
+
+echo Sphinx
