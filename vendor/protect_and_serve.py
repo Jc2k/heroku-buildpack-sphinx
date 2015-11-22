@@ -35,7 +35,7 @@ def authorized(access_token):
     if access_token is None:
         return abort(403)
 
-    gh = login(access_token)
+    gh = login(token=access_token)
     for repo in gh.iter_repos():
         if repo.full_name == app.config['REPO_NAME']:
             session['validated'] = True
