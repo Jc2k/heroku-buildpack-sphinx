@@ -16,7 +16,6 @@ app.config.update(
     GITHUB_CLIENT_SECRET=os.environ.get("GITHUB_CLIENT_SECRET", "yy"),
     STATIC_DIR=os.environ.get("STATIC_DIR", "."),
     REPO_NAME=os.environ.get("REPO_NAME", "!"),
-    DEBUG=True,
 )
 
 # Enforce use of SSL
