@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config.update(
     SECRET_KEY=os.environ.get("SECRET_KEY", "development key"),
     GITHUB_CLIENT_ID=os.environ.get("GITHUB_CLIENT_ID", "xx"),
-    GITHUB_CLIENT_SECRET=os.environ.get("GITHUB_CLIENT_ID", "yy"),
+    GITHUB_CLIENT_SECRET=os.environ.get("GITHUB_CLIENT_SECRET", "yy"),
     STATIC_DIR=os.environ.get("STATIC_DIR", "."),
     DEBUG=True,
 )
