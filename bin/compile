@@ -189,7 +189,7 @@ puts-step "Installing build & hosting environment"
 cp $ROOT_DIR/vendor/protect_and_serve.py $BUILD_DIR/protect_and_serve.py
 
 puts-step "Building documentation"
-/app/.heroku/python/bin/sphinx-build -b html -d $CACHE_DIR/doctrees $ROOT_DIR $BUILD_DIR/html
+/app/.heroku/python/bin/sphinx-build -b html -d $CACHE_DIR/doctrees $BUILD_DIR $BUILD_DIR/html
 
 
 set-env PATH '$HOME/.heroku/python/bin:$PATH'
