@@ -51,7 +51,7 @@ if [[ ! "$DOCKER_BUILD" ]]; then
   fi
 
   # Copy Application code in.
-  deep-cp $BUILD_DIR $APP_DIR
+  deep-cp $BUILD_DIR $APP_DIR/src
 fi
 
 # Set new context.
@@ -190,7 +190,7 @@ puts-step "Installing build & hosting environment"
 cp $ROOT_DIR/vendor/protect_and_serve.py $BUILD_DIR/protect_and_serve.py
 
 puts-step "Building documentation"
-/app/.heroku/python/bin/sphinx-build -b html -d $CACHE_DIR/doctrees $BUILD_DIR $BUILD_DIR/html
+/app/.heroku/python/bin/sphinx-build -b html -d $CACHE_DIR/doctrees $BUILD_DIR/src $BUILD_DIR/html
 
 
 set-env PATH '$HOME/.heroku/python/bin:$PATH'
