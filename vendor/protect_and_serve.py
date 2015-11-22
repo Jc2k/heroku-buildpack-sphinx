@@ -15,6 +15,7 @@ app.config.update(
     GITHUB_CLIENT_ID=os.environ.get("GITHUB_CLIENT_ID", "xx"),
     GITHUB_CLIENT_SECRET=os.environ.get("GITHUB_CLIENT_SECRET", "yy"),
     STATIC_DIR=os.environ.get("STATIC_DIR", "."),
+    REPO_NAME=os.environ.get("REPO_NAME", "!"),
     DEBUG=True,
 )
 
