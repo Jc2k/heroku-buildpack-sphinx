@@ -52,7 +52,7 @@ def logout():
 
 @app.route('/')
 def index():
-    return redirect('/index.html')
+    return redirect(url_for('/', path='index.html'))
 
 
 @app.route('/<path:filename>')
