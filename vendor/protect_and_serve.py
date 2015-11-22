@@ -1,20 +1,20 @@
-from flask import Flask, request, g, session, redirect, url_for, send_from_directory
+import os
+from flask import Flask, abort, request, g, session, redirect, url_for, send_from_directory
 from flask_sslify import SSLify
 from flask.ext.github import GitHub
 
 from github3 import login
 
 
-SECRET_KEY = 'development key'
-DEBUG = True
-
-# Set these values
-GITHUB_CLIENT_ID = 'XXX'
-GITHUB_CLIENT_SECRET = 'YYY'
-
 # setup flask
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config.update(
+    SECRET_KEY=os.environ.get("SECRET_KEY", "development key"),
+    GITHUB_CLIENT_ID=os.environ.get("GITHUB_CLIENT_ID", "xx"),
+    GITHUB_CLIENT_SECRET=os.environ.get("GITHUB_CLIENT_ID", "yy"),
+    STATIC_DIR=os.environ.get("STATIC_DIR", "."),
+    DEBUG=True,
+)
 
 # Enforce use of SSL
 sslify = SSLify(app)
@@ -33,7 +33,7 @@ def token_getter():
 def authorized(access_token):
     next_url = request.args.get('next') or url_for('index')
     if access_token is None:
-        return redirect(next_url)
+        return abort(403)
 
     gh = login(access_token)
     for repo in gh.iter_repos():
@@ -41,7 +41,7 @@ def authorized(access_token):
             session['validated'] = True
             return redirect(next_url)
 
-    raise RuntimeError("Not a member of the correct repo")
+    return abort(403)
 
 
 @app.route('/logout')
@@ -52,9 +52,9 @@ def logout():
 
 @app.route('/<path:path>')
 def index():
-    if False:
-        return github.authorize()
-    return send_from_directory(....)
+    if session.get('validated', False):
+        return github.authorize(scope="user,repo")
+    return send_from_directory(app.config.STATIC_DIR)
 
 
 if __name__ == '__main__':
