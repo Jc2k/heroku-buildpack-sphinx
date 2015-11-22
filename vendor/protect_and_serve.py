@@ -36,11 +36,14 @@ def authorized(access_token):
         return abort(403)
 
     gh = login(token=access_token)
+    print "A"
     for repo in gh.iter_repos():
         print repo.full_name, app.config['REPO_NAME']
         if repo.full_name == app.config['REPO_NAME']:
             session['validated'] = True
             return redirect(next_url)
+
+    print "B"
 
     return abort(403)
 
