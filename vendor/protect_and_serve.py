@@ -47,14 +47,11 @@ def authorized(access_token):
         return abort(403)
 
     gh = login(token=access_token)
-    app.logger.info("A")
-    app.logger.info(app.config['REPO_NAME'])
     for repo in gh.iter_repos():
-        app.logger.info(repo.full_name)
         if repo.full_name == app.config['REPO_NAME']:
             session['validated'] = True
             return redirect(next_url)
-    app.logger.info("B")
+
     return abort(403)
 
 
@@ -72,7 +69,10 @@ def index():
 @app.route('/<path:filename>')
 def path(filename):
     if not session.get('validated', False):
-        return github.authorize(scope="user,repo")
+        return github.authorize(
+            scope="user,repo",
+            redirect_uri=index_for('authorized', _external=True),
+        )
     return send_from_directory(
         app.config['STATIC_DIR'],
         filename,
