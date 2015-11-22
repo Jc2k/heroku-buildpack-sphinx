@@ -71,7 +71,7 @@ def path(filename):
     if not session.get('validated', False):
         return github.authorize(
             scope="user,repo",
-            redirect_uri=index_for('authorized', _external=True),
+            redirect_uri=url_for('authorized', _external=True),
         )
     return send_from_directory(
         app.config['STATIC_DIR'],
