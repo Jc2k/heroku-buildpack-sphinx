@@ -48,8 +48,9 @@ def authorized(access_token):
 
     gh = login(token=access_token)
     app.logger.info("A")
+    app.logger.info(app.config['REPO_NAME'])
     for repo in gh.iter_repos():
-        app.logger.info(",".join(repo.full_name, app.config['REPO_NAME']))
+        app.logger.info(repo.full_name)
         if repo.full_name == app.config['REPO_NAME']:
             session['validated'] = True
             return redirect(next_url)
