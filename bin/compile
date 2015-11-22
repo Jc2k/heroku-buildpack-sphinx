@@ -204,7 +204,7 @@ set-default-env PYTHONHASHSEED random
 set-default-env PYTHONPATH /app/
 set-default-env STATIC_DIR /app/html
 
-set-proc web "gunicorn protect_and_serve:app --log-file=-"
+set-proc web "gunicorn protect_and_serve:app --forwarded-allow-ips='*' --log-file=-"
 
 rm -rf $CACHE_DIR/.heroku/python
 rm -rf $CACHE_DIR/.heroku/python-version
